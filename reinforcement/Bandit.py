@@ -1,28 +1,23 @@
-'''
-Created on 2014. 6. 22.
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Jun  4 22:42:18 2015
 
-@author: Lee
-'''
+@author: hyeonrok lee
+"""
 
-from reinforcement.StateAction import *
-from reinforcement.Environment import *
-from reinforcement.Agent import *
+import numpy as np
+from basic import * 
+
+class BanditAction(Action):
+    pass
+
+class BanditState(State):
+    pass
 
 class BanditReward(Reward):
-    def __init__(self,state,action):
-        self.mean = np.random.normal()
-        self.state = state
-        self.action = action
-    def getState(self):
-        return self.state
-    def getAction(self):
-        return self.action
-    def get(self):
-        return self.mean + np.random.normal()
-    def __str__(self):
-        return 'BanditReward : mean = ' + str(self.mean)
+    pass
 
-class BanditEnv(Environment):
+class BanditEnv(Env):
     def __init__(self,n):
         state = State(0)
         actions = {}
@@ -44,25 +39,7 @@ class BanditEnv(Environment):
         nextState = previousState
         self.currentState = nextState
         return (nextState,reward)
-    
-class BanditValueFunc(ValueFunc):
-    pass
 
-class BanditActionValueFunc(ActionValueFunc):
-    def __init__(self,env):
-        self.states = {}
-        if isinstance(env,Environment):
-            states = env.getStates()
-            for state in states:
-                actions = env.getAvailableActions(state)
-                self.states[state] = {}
-                for action in actions:
-                    self.states[state][action] = 0           
-        pass
-    def update(self,state,action,reward):
-        self.states[state][action] = self.states[state][action] + 0.5 * (reward - self.states[state][action])
-        pass
-        
 class BanditPolicy(Policy):
     def __init__(self,env):
         self.states = {}
@@ -105,8 +82,9 @@ class BanditAgent(Agent):
         msg += 'epsilon : ' + str(self.epsilon) + '\n'
         msg += self.policy.__str__()
         return  msg
- 
+
 
 if __name__ == '__main__':
-    pass
-    
+    a1 = BanditAction(1)
+    a2 = BanditAction(1)
+    print a1 == a2

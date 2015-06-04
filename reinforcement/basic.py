@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Oct 15 22:21:32 2014
 
-@author: reos17
+@author: hyeonrok lee
+
 """
 
-class Environment:
+class Env:
     def takeAction(self):
         pass
     def getStates(self):
@@ -54,8 +54,10 @@ class State:
         return self.s      
 
 class Reward:
+    def __init__(self,r):
+        self.r = r
     def get(self):
-        pass
+        return self.r
 
 class Agent:
     pass
