@@ -26,21 +26,23 @@ class BanditEnv(Env):
             actions[action] = np.random.normal()
         self.states = { state : actions }
         self.currentState = state
+        self.currentReward = 0.
     def getStates(self):
         return self.states.keys()
     def getCurrentState(self):
         return self.currentState
+    def getCurrentReward(self):
+        return self.currentReward
     def getAvailableActions(self,state):
         return self.states[state].keys()
     def takeAction(self,action):
-        r = self.states[self.currentState][action] + np.random.normal()
-        nextState = self.currentState
-        return (nextState,Reward(r))
+        self.currentReward = self.states[self.currentState][action] + np.random.normal()
+        return (self.currentState,self.currentReward)
 
 class BanditPolicy(Policy):
-    def __init__(self,valueFunc,actionValueFunc):
-        self.valueFunc = valueFunc
-        self.actionValueFunc = actionValueFunc
+    def __init__(self):
+        self.valuefunc = BanditValueFunc()
+        self.actionValueFunc = BanditActionValueFunc()
     def chooseAction(self,state):
         epsilon = np.random.uniform()
         actions = self.actionValueFunc.states[state].keys()
@@ -91,18 +93,13 @@ class BanditAgent(Agent):
     def __init__(self,env,epsilon):
         self.env = env
         self.epsilon = epsilon
-        self.valuefunc = ValueFunc(env)
-        self.actionValueFunc = ActionValueFunc(env)
-        self.policy = BanditPolicy(env)
-    def selectAction(self,state):
-        if np.random.uniform() > self.epsilon:
-            self.selectedAction = self.policy.selectActionByExploitation(state)
-        else:
-            self.selectedAction =  self.policy.selectActionByExploration(state)
-        return self.selectedAction
-    def receive(self,state,reward):
-        self.actionValueFunc.update(state,self.selectedAction,reward)
-        self.policy.update(state,self.selectedAction,reward)
+        self.policy = BanditPolicy()
+    def step(self):
+        action = self.policy.chooseAction()
+        self.env.takeAction(action)
+        state = self.env.getCurrentState()
+        reward = self.env.getCurrentReward()
+        policy.update(action,state,reward)
     def __str__(self):
         msg  = '==== BanditAgent ====\n'
         msg += 'epsilon : ' + str(self.epsilon) + '\n'
@@ -110,14 +107,7 @@ class BanditAgent(Agent):
         return  msg        
 
 if __name__ == '__main__':
-    state = State(0)
-    action = Action(0)
-    reward = 10.
-    
     env = BanditEnv(10)
-    actionValue = BanditActionValueFunc()
-    
-    actionValue.update(state,action,reward)
-    actionValue.update(state,action,reward)
-    actionValue.update(state,action,reward)
-    print actionValue
+    agent = BanditAgent(env,0.1)
+    for i in range(100):
+        agent.step()
