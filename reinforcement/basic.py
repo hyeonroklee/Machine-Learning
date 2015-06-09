@@ -33,7 +33,7 @@ class Action:
     def __ne__(self,obj):
         return not self == obj
     def __str__(self):
-        return 'Action : a = ' + str(self.a)
+        return 'action = ' + str(self.a)
     def __hash__(self):
         return self.a
     
@@ -49,7 +49,7 @@ class State:
     def __ne__(self,obj):
         return not self == obj
     def __str__(self):
-        return 'State : s = ' + str(self.s)
+        return 'state = ' + str(self.s)
     def __hash__(self):
         return self.s      
 
