@@ -47,6 +47,7 @@ class BanditEnv(Env):
 
 class BanditPolicy(Policy):
     def __init__(self,env):
+        self.temp = 0.8
         self.valueFunc = BanditValueFunc(env)
         self.actionValueFunc = BanditActionValueFunc(env)
     def chooseAction(self,state):
@@ -54,12 +55,11 @@ class BanditPolicy(Policy):
         actions = self.actionValueFunc.states[state].keys()
         action = actions[0]        
         s = 0
-        t = 1.
         d = 0
         for i in range(len(actions)):
-            s += np.exp(self.actionValueFunc.states[state][actions[i]] / t)
+            s += np.exp(self.actionValueFunc.states[state][actions[i]] / self.temp)
         for i in range(len(actions)):
-            d += np.exp(self.actionValueFunc.states[state][actions[i]] / t)
+            d += np.exp(self.actionValueFunc.states[state][actions[i]] / self.temp)
             if d/s > epsilon:
                 action = actions[i]
                 break
@@ -68,8 +68,8 @@ class BanditPolicy(Policy):
         self.valueFunc.update(state,action,reward)
         self.actionValueFunc.update(state,action,reward)
     def __str__(self):
-        return str(self.actionValueFunc)
-
+        return '==== Policy ====\n'
+        
 class BanditValueFunc():
     def __init__(self,env):
         self.states = {}
@@ -82,6 +82,7 @@ class BanditValueFunc():
 
 class BanditActionValueFunc():
     def __init__(self,env):
+        self.alpha = 0.3
         self.states = {}
         for state in env.getStates():
             self.states[state] = {}
@@ -92,16 +93,13 @@ class BanditActionValueFunc():
             self.states[state] = {}
         if not self.states[state].has_key(action):
             self.states[state][action] = 0.
-        self.states[state][action] = self.states[state][action] + 0.2*(reward - self.states[state][action])
+        self.states[state][action] = self.states[state][action] + self.alpha*(reward - self.states[state][action])
     def __str__(self):
-        msg = ''
-        states = self.states.keys()
-        for i in range(len(states)):
-            actions = self.states[states[i]].keys()
-            for j in range(len(actions)):
-                msg += str(states[i]) + ' ' 
-                msg += str(actions[j]) + ' '
-                msg += 'action_value = ' + str(self.states[states[i]][actions[j]]) + '\n'
+        msg = '==== ActionValueFunc ====\n'
+        for state in self.states.keys():
+            for action in self.states[state].keys():
+                msg += str(state) + ' ' + str(action) + ' '
+                msg += 'action_value = ' + str(self.states[state][action]) + '\n'
         return msg
         
         
@@ -123,7 +121,7 @@ class BanditAgent(Agent):
             
         self.env.takeAction(action)
         reward = self.env.getCurrentReward()
-        self.policy.update(action,state,reward)
+        self.policy.update(state,action,reward)
 
     def __str__(self):
         msg = '==== BanditAgent ====\n'
@@ -136,8 +134,10 @@ if __name__ == '__main__':
     epsilon = 0.1        
     env = BanditEnv(10)  
     agent = BanditAgent(env,epsilon)
-    print str(env)        
-    for i in range(10000):
+           
+    for i in range(2000):
         agent.step()
     
+    print str(env) 
     print str(agent)
+    print str(agent.policy.actionValueFunc)
