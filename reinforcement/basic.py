@@ -5,22 +5,6 @@
 
 """
 
-class Env:
-    def takeAction(self):
-        pass
-    def getStates(self):
-        pass
-    def getAvailableActions(self,state):
-        pass
-    def getCurrentState(self):
-        pass
-
-class Policy:
-    def selectAction(self):
-        pass
-    def update(self,state,action,reward):
-        pass
-    
 class Action:
     def __init__(self,a):
         self.a = a
@@ -53,11 +37,25 @@ class State:
     def __hash__(self):
         return self.s      
 
-class Reward:
-    def __init__(self,r):
-        self.r = r
-    def get(self):
-        return self.r
+class Env:
+    def takeAction(self):
+        pass
+    def getStates(self):
+        pass
+    def getAvailableActions(self,state):
+        pass
+    def getCurrentState(self):
+        pass
+    def getCurrentReward(self):
+        pass
+
+class Policy:
+    def chooseAction(self,state):
+        pass
+    def update(self,state,action,reward):
+        pass
+    
 
 class Agent:
-    pass
+    def step(self):
+        pass

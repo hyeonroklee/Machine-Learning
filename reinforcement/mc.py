@@ -5,3 +5,8 @@
 
 """
 
+import numpy as np
+from basic import *
+
+if __name__ == '__main__':
+    pass

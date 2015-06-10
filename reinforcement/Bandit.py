@@ -8,15 +8,6 @@
 import numpy as np
 from basic import * 
 
-class BanditAction(Action):
-    pass
-
-class BanditState(State):
-    pass
-
-class BanditReward(Reward):
-    pass
-
 class BanditEnv(Env):
     def __init__(self,n):
         state = State(0)
@@ -47,7 +38,7 @@ class BanditEnv(Env):
 
 class BanditPolicy(Policy):
     def __init__(self,env):
-        self.temp = 0.8
+        self.temp = 1.0
         self.valueFunc = BanditValueFunc(env)
         self.actionValueFunc = BanditActionValueFunc(env)
     def chooseAction(self,state):
