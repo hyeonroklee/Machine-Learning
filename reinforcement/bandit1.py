@@ -2,7 +2,7 @@
 """
 
 @author: hyeonrok lee
-
+ 
 """
 
 import numpy as np
@@ -73,7 +73,7 @@ class BanditValueFunc():
 
 class BanditActionValueFunc():
     def __init__(self,env):
-        self.alpha = 0.3
+        self.alpha = 0.5
         self.states = {}
         for state in env.getStates():
             self.states[state] = {}
