@@ -37,18 +37,24 @@ class BanditEnv(Env):
         return self.states[state].keys()
     def takeAction(self,action):
         self.currentReward = self.states[self.currentState][action] + np.random.normal()
-        return (self.currentState,self.currentReward)
+        self.currentState = self.currentState
+    def __str__(self):
+        msg = '==== BanditEnv ====\n'
+        for state in self.states.keys():
+            for action in self.states[state].keys():
+                msg += str(state) + ' ' + str(action) + ' ' + str(self.states[state][action]) + '\n'
+        return msg
 
 class BanditPolicy(Policy):
-    def __init__(self):
-        self.valuefunc = BanditValueFunc()
-        self.actionValueFunc = BanditActionValueFunc()
+    def __init__(self,env):
+        self.valueFunc = BanditValueFunc(env)
+        self.actionValueFunc = BanditActionValueFunc(env)
     def chooseAction(self,state):
         epsilon = np.random.uniform()
         actions = self.actionValueFunc.states[state].keys()
         action = actions[0]        
         s = 0
-        t = 0.1
+        t = 1.
         d = 0
         for i in range(len(actions)):
             s += np.exp(self.actionValueFunc.states[state][actions[i]] / t)
@@ -61,22 +67,32 @@ class BanditPolicy(Policy):
     def update(self,state,action,reward):
         self.valueFunc.update(state,action,reward)
         self.actionValueFunc.update(state,action,reward)
+    def __str__(self):
+        return str(self.actionValueFunc)
 
 class BanditValueFunc():
-    def __init__(self):
+    def __init__(self,env):
         self.states = {}
+        for state in env.getStates():
+            self.states[state] = {}
+            for action in env.getAvailableActions(state):
+                self.states[state][action] = 0.
     def update(self,state,action,reward):
         pass
 
 class BanditActionValueFunc():
-    def __init__(self):
+    def __init__(self,env):
         self.states = {}
+        for state in env.getStates():
+            self.states[state] = {}
+            for action in env.getAvailableActions(state):
+                self.states[state][action] = 0.
     def update(self,state,action,reward):
         if not self.states.has_key(state):
             self.states[state] = {}
         if not self.states[state].has_key(action):
             self.states[state][action] = 0.
-        self.states[state][action] = self.states[state][action] + 0.1*(reward - self.states[state][action])
+        self.states[state][action] = self.states[state][action] + 0.2*(reward - self.states[state][action])
     def __str__(self):
         msg = ''
         states = self.states.keys()
@@ -93,21 +109,35 @@ class BanditAgent(Agent):
     def __init__(self,env,epsilon):
         self.env = env
         self.epsilon = epsilon
-        self.policy = BanditPolicy()
+        self.policy = BanditPolicy(env)
+        self.cnt = {}
     def step(self):
-        action = self.policy.chooseAction()
-        self.env.takeAction(action)
-        state = self.env.getCurrentState()
-        reward = self.env.getCurrentReward()
-        policy.update(action,state,reward)
-    def __str__(self):
-        msg  = '==== BanditAgent ====\n'
-        msg += 'epsilon : ' + str(self.epsilon) + '\n'
-        msg += self.policy.__str__()
-        return  msg        
+        state = self.env.getCurrentState()        
+        action = self.policy.chooseAction(state)
 
+        if not self.cnt.has_key(state):
+            self.cnt[state] = {}
+        if not self.cnt[state].has_key(action):
+            self.cnt[state][action] = 0
+        self.cnt[state][action] += 1
+            
+        self.env.takeAction(action)
+        reward = self.env.getCurrentReward()
+        self.policy.update(action,state,reward)
+
+    def __str__(self):
+        msg = '==== BanditAgent ====\n'
+        for state in self.cnt.keys():
+            for action in self.cnt[state].keys():
+                msg += str(state) + ' ' + str(action) + ' ' + str(self.cnt[state][action]) + '\n'
+        return msg        
+                    
 if __name__ == '__main__':
-    env = BanditEnv(10)
-    agent = BanditAgent(env,0.1)
-    for i in range(100):
+    epsilon = 0.1        
+    env = BanditEnv(10)  
+    agent = BanditAgent(env,epsilon)
+    print str(env)        
+    for i in range(10000):
         agent.step()
+    
+    print str(agent)
