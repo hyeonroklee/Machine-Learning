@@ -3,12 +3,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def cross_validation(d,k):
-    pass
-
-def bootstrap(d):
-    return d[np.random.randint(0,len(d),len(d))]
-    
 def linear_model(x,p):
     x = np.array(x)
     p = np.array(p)
