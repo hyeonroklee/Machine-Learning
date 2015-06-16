@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Apr 22 19:10:40 2015
 
 @author: hyeonrok lee
+
 """
 
 import numpy as np
@@ -18,5 +18,4 @@ def regression_model(x,p):
 def classification_model():
     pass
 
-if __name__ == '__main__':
     
