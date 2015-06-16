@@ -15,7 +15,7 @@ def unknown_regression_environment():
     x = np.matrix(np.linspace(0,100,101)).T    
     t = np.append(x,np.matrix(np.ones(len(x))).T,axis=1)
     p = np.array( [[2.],[3.]] )
-    return x,t.dot(p) + np.random.normal(loc=0.0,scale=10.0,size=(x.shape[0],p.shape[1]))
+    return x,t.dot(p) + np.random.normal(loc=0.0,scale=10.,size=(t.shape[0],p.shape[1]))
 
 def unknown_classification_environment():
     pass
@@ -23,12 +23,14 @@ def unknown_classification_environment():
 if __name__ == '__main__':
     x,y = unknown_regression_environment()
     w1 = reg.linear_regression_by_normal(x,y)
-    #w2 = reg.linear_regression_by_batch(x,y)
-    plt.plot(x[:,0],y,'+r')
-    plt.plot(x,x*w1)
-    #plt.plot(x,x*w1)
+    w2 = reg.linear_regression_by_gradient(x,y)
+    y1 = np.append(x,np.matrix(np.ones(len(x))).T,axis=1) * w1 
+    y2 = np.append(x,np.matrix(np.ones(len(x))).T,axis=1) * w2
+    plt.plot(x,y,'+r')
+    plt.plot(x,y1,'-b')    
+    plt.plot(x,y2,'-g')
     plt.show()
-    
+    print w1,w2
 '''
     x = np.matrix( [ np.linspace(0,100,101), np.ones(101) ] ).T.tolist()
     p = [ [2.] , [3.] ]
