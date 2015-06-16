@@ -22,7 +22,7 @@ def unknown_classification_environment():
 
 if __name__ == '__main__':
     x,y = unknown_regression_environment()
-    w1 = reg.linear_regression_by_normal(x,y)
+    w1 = reg.linear_regression_by_equation(x,y)
     w2 = reg.linear_regression_by_gradient(x,y)
     y1 = np.append(x,np.matrix(np.ones(len(x))).T,axis=1) * w1 
     y2 = np.append(x,np.matrix(np.ones(len(x))).T,axis=1) * w2
@@ -30,7 +30,9 @@ if __name__ == '__main__':
     plt.plot(x,y1,'-b')    
     plt.plot(x,y2,'-g')
     plt.show()
-    print w1,w2
+    print w1
+    print w2
+    print w1-w2
 '''
     x = np.matrix( [ np.linspace(0,100,101), np.ones(101) ] ).T.tolist()
     p = [ [2.] , [3.] ]
