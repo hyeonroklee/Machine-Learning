@@ -5,8 +5,31 @@ Created on Sat Apr 18 12:54:41 2015
 @author: hyeonrok lee
 """
 
-def logistic_reg():
-    pass
+import numpy as np
+
+def sigmoid(x,w):
+    return 1. / (1.+np.exp(-np.dot(x,w)))
+
+def logistic_regression(x,y):
+    # full batch
+    t = np.append(x,np.matrix(np.ones(len(x))).T,axis=1)
+    w = np.random.normal(size=(t.shape[1],1))
+    alpha = 0.0000001 # learning rate
+    delta = 0.001
+    
+    while True:
+        delta1 = 0.
+        delta2 = 0. 
+        for i in range(t.shape[0]):
+            delta1 = delta1 + (alpha * ((y[i] - sigmoid(t[i],w)) * t[i,0]))[0,0]
+            delta2 = delta2 + (alpha * ((y[i] - sigmoid(t[i],w)) * t[i,1]))[0,0]
+        # check if there is a fluctuation to adjust the learning rate
+        # print delta1,delta2
+        if np.abs(delta1) < delta and np.abs(delta2) < delta:
+            break
+        w[0] += delta1
+        w[1] += delta2
+    return w
 
 def knn_classify(dataset,x,k):
     dataSetSize = len(dataSet)

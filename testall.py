@@ -18,9 +18,23 @@ def unknown_regression_environment():
     return x,t.dot(p) + np.random.normal(loc=0.0,scale=10.,size=(t.shape[0],p.shape[1]))
 
 def unknown_classification_environment():
-    pass
+    n1 = 100        
+    mean1 = [1.,1.]
+    cov1 = [ [ 1., 0.5 ] , [ 0.5, 1. ] ]    
+    d1 = np.random.multivariate_normal(mean1,cov1,n1)
+
+    n2 = 100        
+    mean2 = [3.,3.]
+    cov2 = [ [ 1., 0.5 ] , [ 0.5, 1. ] ]    
+    d2 = np.random.multivariate_normal(mean2,cov2,n2)
+    
+    x = np.append(d1,d2,axis=0)
+    y = np.append(np.matrix(np.zeros(n1)).T,np.matrix(np.ones(n2)).T,axis=0)
+    return x,y
 
 if __name__ == '__main__':
+    '''
+    
     x,y = unknown_regression_environment()
     w1 = reg.linear_regression_by_equation(x,y)
     w2 = reg.linear_regression_by_gradient(x,y)
@@ -33,29 +47,13 @@ if __name__ == '__main__':
     print w1
     print w2
     print w1-w2
-'''
-    x = np.matrix( [ np.linspace(0,100,101), np.ones(101) ] ).T.tolist()
-    p = [ [2.] , [3.] ]
-    y = linear_model(x,p)
-    plt.plot(x,y,'+r')
-'''    
-    
-'''
-    x = [ [t,1.] for t in np.linspace(0,100,101) ]
-    # p = [ [2.],[3.] ]
-    y = unknown_environment(x)
-    plt.plot(np.array(x)[:,0],y,'+r')
-'''
-    
-'''
-x = [ [x,1.] for x in np.linspace(0,10,100)]
-x = np.array(x)
-y = linear_model(x)
-w,w1 = linear_regression(x,y)
+    '''
 
-print w,w1
- 
-plt.plot(x[:,0],y,'+r')
-plt.plot(x[:,0],x*w)
-plt.plot(x[:,0],np.matrix(x) * np.matrix(w1))
-'''
+    x,y = unknown_classification_environment()
+    w = cls.logistic_regression(x,y)
+    s1 = np.linspace(0,10,101)
+    s2 = (-w[0,0]*s1 - w[2,0]) / w[1,0]
+    plt.plot(s1,s2) 
+    plt.plot(x[:100,0],x[:100,1],'+b')    
+    plt.plot(x[100:200,0],x[100:200,1],'+r')
+    plt.show()
