@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
     x,y = unknown_classification_environment()
     w = cls.logistic_regression(x,y)
-    s1 = np.linspace(0,10,101)
+    s1 = np.array([np.min(x[:,0]),np.max(x[:,0])])
     s2 = (-w[0,0]*s1 - w[2,0]) / w[1,0]
     plt.plot(s1,s2) 
     plt.plot(x[:100,0],x[:100,1],'+b')    
