@@ -48,7 +48,8 @@ if __name__ == '__main__':
     print w2
     print w1-w2
     '''
-
+    
+    '''
     x,y = unknown_classification_environment()
     w = cls.logistic_regression(x,y)
     s1 = np.array([np.min(x[:,0]),np.max(x[:,0])])
@@ -57,3 +58,10 @@ if __name__ == '__main__':
     plt.plot(x[:100,0],x[:100,1],'+b')    
     plt.plot(x[100:200,0],x[100:200,1],'+r')
     plt.show()
+    '''
+    
+    t = [2.,3.]
+    x,y = unknown_classification_environment()
+    cls.knn(x,y,t)
+    
+    
