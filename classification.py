@@ -80,19 +80,48 @@ def decision_tree_split_data(x,y,idx,value):
     return left_x,left_y,right_x,right_y
     
 def decision_tree_choose_feature_to_split(x,y):
-    pass
+    num_of_features = len(x[0])
+    old_entropy = decision_tree_calculate_entropy(x,y)
+    selected_idx = -1
+    selected_value = -1
+    for i in range(num_of_features):
+        # extract values given a feature
+        values = []
+        for j in range(len(x)):
+            values.append(x[j][i])
+        values = set(values)
+        
+        for v in values:
+            l_x,l_y,r_x,r_y = decision_tree_split_data(x,y,i,v)
+            len_l_y = len(l_y)
+            len_r_y = len(r_y)
+            new_entropy = \
+                decision_tree_calculate_entropy(l_x,l_y) * (float(len_l_y)/(len_l_y+len_r_y)) + \
+                decision_tree_calculate_entropy(r_x,r_y) * (float(len_r_y)/(len_l_y+len_r_y))
+            # print i,v,l_x, '############' , r_x, decision_tree_calculate_entropy(l_x,l_y),decision_tree_calculate_entropy(r_x,r_y)
+            # print old_entropy,new_entropy
+            if new_entropy < old_entropy:
+                selected_idx = i
+                selected_value = v
+            
+    return selected_idx,selected_value
 
 def decision_tree(x,y):
-    pass    
-      
+    print x,y
+    if len(x) < 2:
+        return
+    idx, value = decision_tree_choose_feature_to_split(x,y)
+    if idx < 0 or value < 0:
+        return
+    l_x,l_y,r_x,r_y = decision_tree_split_data(x,y,idx,value)
+    decision_tree(l_x,l_y)    
+    decision_tree(r_x,r_y)
+    
 def svm():
     pass
 
 if __name__ == '__main__':
     x = [ [1,0,1] , [0,1,0], [1,0,0 ] ]
     y = [ 1,0,0 ]
-    
-    print decision_tree_split_data(x,y,1,0)    
-    
     decision_tree(x,y)
     
