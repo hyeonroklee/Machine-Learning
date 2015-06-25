@@ -45,3 +45,54 @@ def knn(x,y,t,k=10):
         v = y[idx[i],0]
         votes[v] = votes.get(v,0) + 1
     print votes
+
+
+# decision tree
+
+def decision_tree_calculate_entropy(x,y):
+    # calculate entropy
+    num = len(x)
+    label_cnt = {}
+    entropy = 0.
+    for i in range(num):
+        if not label_cnt.has_key(y[i]):
+            label_cnt[y[i]] = 0
+        label_cnt[y[i]] += 1
+    for label in label_cnt.keys():
+        prob = float(label_cnt[label]) / num
+        entropy -= prob * np.log(prob)
+    return entropy    
+
+def decision_tree_split_data(x,y,idx,value):
+    # splitting dataset
+    left_x = []
+    left_y = []
+    right_x = []
+    right_y = []
+    num = len(x)
+    for i in range(num):
+        if x[i][idx] == value:
+            left_x.append( x[i][:idx] + x[i][idx+1:] )
+            left_y.append( y[i])
+        else:
+            right_x.append( x[i][:idx] + x[i][idx+1:] )
+            right_y.append( y[i])
+    return left_x,left_y,right_x,right_y
+    
+def decision_tree_choose_feature_to_split(x,y):
+    pass
+
+def decision_tree(x,y):
+    pass    
+      
+def svm():
+    pass
+
+if __name__ == '__main__':
+    x = [ [1,0,1] , [0,1,0], [1,0,0 ] ]
+    y = [ 1,0,0 ]
+    
+    print decision_tree_split_data(x,y,1,0)    
+    
+    decision_tree(x,y)
+    
