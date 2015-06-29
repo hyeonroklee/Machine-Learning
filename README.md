@@ -1,4 +1,4 @@
-nostalgia
+Nostalgia
 =========
 
 Machine Learning Library
