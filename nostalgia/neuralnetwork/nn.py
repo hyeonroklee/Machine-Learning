@@ -23,19 +23,17 @@ class Network():
             self.thetas.append(np.random.normal(size=(layers[i],layers[i-1]+1)))
         
     def feedforward(self,x):
-        x = np.matrix(np.append(x,1.)).T
-        m = np.matrix(self.thetas[0])
-        x = np.append(sigmoid_vec(m * x),np.ones((m.shape[0],1)),axis=1)
-        x = np.matrix(self.thetas[1]) * x.T
-        print x
+        x = np.matrix(np.append(np.array(x),1.)).T
+        for i in range(self.num_of_layers-1):
+            active = sigmoid_vec(np.matrix(self.thetas[i]) * x) 
+            x = np.matrix(np.append(active.tolist(),1)).T
+        return active
         
     def backprop(self):
         pass
     
 if __name__ == '__main__':
-    x = np.array( [3,2,1] )
-    l = [3,3,1]
-    n = Network(l)
-    n.feedforward(x)
-    
-    print sigmoid_vec(x)
+    x = np.array([3,2,1])
+    layers = [3,3,1]
+    n = Network(layers)
+    print n.feedforward(x)
