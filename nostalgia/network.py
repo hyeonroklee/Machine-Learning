@@ -14,6 +14,7 @@ def sigmoid_prime(z):
     return sigmoid(z)*(1-sigmoid(z))
 
 sigmoid_vec = np.vectorize(sigmoid)
+sigmoid_prime_vec = np.vectorize(sigmoid_prime)
 
 class Network():
     def __init__(self,sizes):
