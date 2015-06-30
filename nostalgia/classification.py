@@ -106,7 +106,7 @@ def decision_tree_choose_feature_to_split(x,y):
             
     return selected_idx,selected_value
 
-def decision_tree(x,y):
+def decision_tree(x,y,t):
     print x,y
     if len(x) < 2:
         return
@@ -114,14 +114,9 @@ def decision_tree(x,y):
     if idx < 0 or value < 0:
         return
     l_x,l_y,r_x,r_y = decision_tree_split_data(x,y,idx,value)
-    decision_tree(l_x,l_y)    
-    decision_tree(r_x,r_y)
+    decision_tree(l_x,l_y,t)    
+    decision_tree(r_x,r_y,t)
     
-def svm():
+def svm(x,y,t):
     pass
 
-if __name__ == '__main__':
-    x = [ [1,0,1] , [0,1,0], [1,0,0 ] ]
-    y = [ 1,0,0 ]
-    decision_tree(x,y)
-    
