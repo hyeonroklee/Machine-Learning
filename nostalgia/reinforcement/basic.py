@@ -49,6 +49,12 @@ class Env(object):
         pass
     def is_terminated(self):
         pass
+    def is_terminal_state(self,state):
+        pass
+    def get_transition(self):
+        pass
+    def get_reward(self):
+        pass
 
 class Policy(object):
     def __init__(self):
