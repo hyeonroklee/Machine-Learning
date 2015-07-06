@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
 
-@author: hyeonrok lee
-
-"""
-
-class Action:
+class Action(object):
     def __init__(self,a):
         self.a = a
     def get(self):
@@ -21,7 +16,7 @@ class Action:
     def __hash__(self):
         return self.a
     
-class State:
+class State(object):
     def __init__(self,s):
         self.s = s
     def get(self):
@@ -37,25 +32,35 @@ class State:
     def __hash__(self):
         return self.s      
 
-class Env:
-    def takeAction(self):
+class Env(object):
+    def __init__(self):
         pass
-    def getStates(self):
+    def take_action(self,action):
         pass
-    def getAvailableActions(self,state):
+    def get_states(self):
         pass
-    def getCurrentState(self):
+    def get_available_actions(self,state):
         pass
-    def getCurrentReward(self):
+    def set_initial_state(self,state):
+        pass
+    def get_current_state(self):
+        pass
+    def get_current_reward(self):
+        pass
+    def is_terminated(self):
         pass
 
-class Policy:
-    def chooseAction(self,state):
+class Policy(object):
+    def __init__(self):
+        pass
+    def choose_action(self,state):
         pass
     def update(self,state,action,reward):
         pass
     
 
-class Agent:
+class Agent(object):
+    def __init__(self):
+        pass
     def step(self):
         pass

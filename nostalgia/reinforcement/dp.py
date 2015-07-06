@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-
-@author: hyeonrok lee
-
-"""
 
 import numpy as np
 from basic import *
@@ -14,6 +9,108 @@ from basic import *
 8   9 10 11
 12 13 14 15
 '''
+
+class DPEnv(Env):
+    def __init__(self):
+        super(DPEnv, self).__init__()
+
+        self._num_of_states = 16
+        self._num_of_actions = 4
+        self._states = []
+        self._actions = []
+        self._current_state = State(5)
+        self._current_reward = -1
+        self._transition = {}
+        self._reward = {}
+
+        for i in range(self._num_of_states):
+            self._states.append(State(i))
+        for i in range(self._num_of_actions):
+            self._actions.append(Action(i))
+
+        ''' initial transition probability '''
+        for from_state in self._states:
+            for action in self._actions:
+                for to_state in self._states:
+                    if not self._transition.has_key(from_state):
+                        self._transition[from_state] = {}
+                    if not self._transition[from_state].has_key(action):
+                        self._transition[from_state][action] = {}
+                    self._transition[from_state][action][to_state] = 0.
+
+        for i in range(self._num_of_states):
+            target_states = [ (State(i-4),Action(0)) ,(State(i+1),Action(1)),(State(i+4),Action(2)),(State(i-1),Action(3)) ]
+            for target_state,target_action in target_states:
+                if self._transition[State(i)][target_action].has_key(target_state) and \
+                    ( i / 4 == target_state.get() / 4 or i % 4 == target_state.get() % 4 ) :
+                    self._transition[State(i)][target_action][target_state] = 1.
+                else:
+                    self._transition[State(i)][target_action][State(i)] = 1.
+
+
+        ''' initial reward '''
+        for from_state in self._states:
+            for action in self._actions:
+                for to_state in self._states:
+                    if not self._reward.has_key(from_state):
+                        self._reward[from_state] = {}
+                    if not self._reward[from_state].has_key(action):
+                        self._reward[from_state][action] = {}
+                    self._reward[from_state][action][to_state] = -1
+
+    def get_current_state(self):
+        return self._current_state
+
+    def set_initial_state(self, state):
+        self._current_state = state
+
+    def take_action(self,action):
+        p = np.random.uniform()
+        s = 0.
+        states = self._transition[self._current_state][action].keys()
+        for to_state in states:
+            s += self._transition[self._current_state][action][to_state]
+            if p < s:
+                self._current_state = to_state
+                self._current_reward = self._reward[self._current_state][action][to_state]
+                break
+
+    def is_terminated(self):
+        return (self._current_state == State(0) or self._current_state == State(15))
+
+    def get_states(self):
+        return self._states
+
+    def get_current_reward(self):
+        return self._current_reward
+
+    def get_available_actions(self, state):
+        return self._actions
+
+    def get_transition(self):
+        return self._transition
+
+    def get_reward(self):
+        return self._reward
+
+class DPPolicy(Policy):
+    def __init__(self):
+        super(DPPolicy, self).__init__()
+
+    def choose_action(self, state):
+        super(DPPolicy, self).choose_action(state)
+
+    def update(self, state, action, reward):
+        super(DPPolicy, self).update(state, action, reward)
+
+
+class DPAgent(Agent):
+    def step(self):
+        super(DPAgent, self).step()
+
+    def __init__(self):
+        super(DPAgent, self).__init__()
+
 
 if __name__ == '__main__':
 
