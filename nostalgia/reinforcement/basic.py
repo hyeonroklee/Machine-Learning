@@ -66,7 +66,9 @@ class Policy(object):
     
 
 class Agent(object):
-    def __init__(self):
-        pass
+    def __init__(self,env,policy):
+        self._env = env
+        self._policy = policy
+        
     def step(self):
         pass

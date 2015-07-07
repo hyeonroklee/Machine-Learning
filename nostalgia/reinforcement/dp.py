@@ -176,11 +176,12 @@ class DPPolicy(Policy):
                         self._policy[from_state][action] = 0.
 
 class DPAgent(Agent):
+    def __init__(self,env,policy):
+        super(DPAgent, self,env,policy).__init__()
+
     def step(self):
         super(DPAgent, self).step()
 
-    def __init__(self):
-        super(DPAgent, self).__init__()
 
 
 if __name__ == '__main__':

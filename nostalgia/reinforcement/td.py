@@ -15,7 +15,7 @@ from basic import *
 12 13 14 15
 '''
 
-class env():
+class TDEnv(Env):
     def __init__(self,start_state=State(5)):
         self.num_of_states = 16
         self.num_of_actions = 4
@@ -88,6 +88,23 @@ class env():
                     self.current_state = state
                     break
         return True
+
+class TDPolicy(Policy):
+    def __init__(self):
+        super(TDPolicy, self).__init__()
+
+    def choose_action(self, state):
+        super(TDPolicy, self).choose_action(state)
+
+    def update(self, state, action, reward):
+        super(TDPolicy, self).update(state, action, reward)
+
+class TDAgent(Agent):
+    def __init__(self,env,policy):
+        super(TDAgent,self,env,policy).__init__()
+
+    def step(self):
+        super(TDAgent, self).step()
 
 if __name__ == '__main__':
     e = env()

@@ -5,6 +5,7 @@
 
 """
 
+from . import reinforcement
 from . import classification
 from . import regression
 from . import network
@@ -15,6 +16,7 @@ from . import simulator
 from . import boosting
 
 __all___ = [
+    'reinforcement',
     'classification',
     'regression',
     'network',
@@ -24,3 +26,5 @@ __all___ = [
     'simulator',
     'boosting'
 ]
+
+print 'initialize nostalgia ...'

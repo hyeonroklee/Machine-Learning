@@ -15,44 +15,46 @@ from basic import *
 12 13 14 15
 '''
 
-class env():
-    def __init__(self,start_state):
-        self.num_of_states = 16
-        self.num_of_actions = 4
-        self.states = []
-        self.actions = []
-        self.reward = {}
-        self.transition = {}        
-        self.current_state = start_state
-        self.current_reward = 0.     
+class MCEnv(Env):
+    def __init__(self):
+        super(MCEnv, self).__init__()
+
+        self._num_of_states = 16
+        self._num_of_actions = 4
+        self._states = []
+        self._actions = []
+        self._reward = {}
+        self._transition = {}
+        self._current_state = State(6)
+        self._current_reward = 0.
         
-        for i in range(num_of_states):
-            self.states.append(State(i))
-        for i in range(num_of_actions):
-            self.actions.append(Action(i))
+        for i in range(self._num_of_states):
+            self._states.append(State(i))
+        for i in range(self._num_of_actions):
+            self._actions.append(Action(i))
         
-        for from_state in self.states:
-            for action in self.actions:
-                for to_state in self.states:
-                    if not self.reward.has_key(from_state):
-                        self.reward[from_state] = {}
-                    if not self.reward[from_state].has_key(action):
-                        self.reward[from_state][action] = {}
-                    if not self.transition.has_key(from_state):
-                        self.transition[from_state] = {}
-                    if not self.transition[from_state].has_key(action):
-                        self.transition[from_state][action] = {}
-                    self.reward[from_state][action][to_state] = -1
-                    self.transition[from_state][action][to_state] = 0.
+        for from_state in self._states:
+            for action in self._actions:
+                for to_state in self._states:
+                    if not self._reward.has_key(from_state):
+                        self._reward[from_state] = {}
+                    if not self._reward[from_state].has_key(action):
+                        self._reward[from_state][action] = {}
+                    if not self._transition.has_key(from_state):
+                        self._transition[from_state] = {}
+                    if not self._transition[from_state].has_key(action):
+                        self._transition[from_state][action] = {}
+                    self._reward[from_state][action][to_state] = -1
+                    self._transition[from_state][action][to_state] = 0.
         
-        for i in range(num_of_states):
+        for i in range(self._num_of_states):
             target_states = [ (State(i-4),Action(0)) ,(State(i+1),Action(1)),(State(i+4),Action(2)),(State(i-1),Action(3)) ]
             for target_state,target_action in target_states:
-                if self.transition[State(i)][target_action].has_key(target_state) and \
+                if self._transition[State(i)][target_action].has_key(target_state) and \
                     ( i / 4 == target_state.get() / 4 or i % 4 == target_state.get() % 4 ) :
-                    self.transition[State(i)][target_action][target_state] = 1.
+                    self._transition[State(i)][target_action][target_state] = 1.
                 else:
-                    self.transition[State(i)][target_action][State(i)] = 1.
+                    self._transition[State(i)][target_action][State(i)] = 1.
 
                 
     def get_states(self):
@@ -88,6 +90,40 @@ class env():
                     self.current_state = state
                     break
         return True
+
+    def set_initial_state(self, state):
+        super(MCEnv, self).set_initial_state(state)
+
+    def is_terminal_state(self, state):
+        super(MCEnv, self).is_terminal_state(state)
+
+    def get_available_actions(self, state):
+        super(MCEnv, self).get_available_actions(state)
+
+    def get_transition(self):
+        raise Exception('Not Supported')
+
+    def get_reward(self):
+        raise Exception('Not Supported')
+
+class MCPolicy(Policy):
+    def __init__(self):
+        super(MCPolicy, self).__init__()
+
+    def choose_action(self, state):
+        super(MCPolicy, self).choose_action(state)
+
+    def update(self, state, action, reward):
+        super(MCPolicy, self).update(state, action, reward)
+
+
+class MCAgent(Agent):
+    def __init__(self,env,policy):
+        super(MCAgent, self,env,policy).__init__()
+
+    def step(self):
+        super(MCAgent, self).step()
+
 
 if __name__ == '__main__':
     

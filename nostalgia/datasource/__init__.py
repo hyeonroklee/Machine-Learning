@@ -5,4 +5,4 @@
 
 """
 
-print 'datasource loaded'
+print 'initialize datasource ...'

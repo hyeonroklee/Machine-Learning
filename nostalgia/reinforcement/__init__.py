@@ -1,11 +1,23 @@
-from . basic import Action,State,Env,Policy,Agent
-import dp
-import mc
-import td
+from .basic import Env,Policy,Agent,Action,State
+from .dp import DPAgent,DPPolicy,DPEnv
+from .mc import MCAgent,MCPolicy,MCEnv
+from .td import TDAgent,TDPolicy,TDEnv
 
 __all__ = [
-    'basic'
-    'dp',
-    'mc',
-    'td'
+    'Env',
+    'Policy',
+    'Agent',
+    'Action',
+    'State',
+    'DPEnv',
+    'DPPolicy',
+    'DPAgent',
+    'MCEnv',
+    'MCPolicy',
+    'MCAgent',
+    'TDEnv',
+    'TDPolicy',
+    'TDAgent'
 ]
+
+print 'initialize reinforcement ...'
