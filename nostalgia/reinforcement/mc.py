@@ -32,7 +32,7 @@ class MCEnv(Env):
             self._states.append(State(i))
         for i in range(self._num_of_actions):
             self._actions.append(Action(i))
-        
+
         for from_state in self._states:
             for action in self._actions:
                 for to_state in self._states:
@@ -56,18 +56,17 @@ class MCEnv(Env):
                 else:
                     self._transition[State(i)][target_action][State(i)] = 1.
 
-                
     def get_states(self):
-        return self.states
+        return self._states
     
     def get_actions(self):
-        return self.actions
+        return self._actions
     
     def get_current_state(self):
-        return self.current_state
+        return self._current_state
     
     def get_current_reward(self):
-        return self.current_reward
+        return self._current_reward
        
     def reset_current_state(self,state):
         self.current_state = state
