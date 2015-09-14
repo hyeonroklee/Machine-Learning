@@ -19,5 +19,3 @@ __all__ = [
     'TDPolicy',
     'TDAgent'
 ]
-
-print 'initialize reinforcement ...'

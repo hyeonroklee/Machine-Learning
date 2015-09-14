@@ -1,30 +1,23 @@
 # -*- coding: utf-8 -*-
-"""
 
-@author: hyeonrok lee
-
-"""
-
-from . import reinforcement
-from . import classification
-from . import regression
-from . import network
-from . import features
-from . import genetic
-from . import sampling
-from . import simulator
-from . import boosting
+from nostalgia import reinforcement
+from nostalgia import classification
+from nostalgia import regression
+from nostalgia import neuralnetwork
+from nostalgia import features
+from nostalgia import genetic
+from nostalgia import sampling
+from nostalgia import simulator
+from nostalgia import boosting
 
 __all___ = [
     'reinforcement',
     'classification',
     'regression',
-    'network',
+    'neuralnetwork',
     'features',
     'genetic',
     'sampling',
     'simulator',
     'boosting'
 ]
-
-print 'initialize nostalgia ...'
