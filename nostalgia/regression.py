@@ -1,16 +1,9 @@
-# -*- coding: utf-8 -*-
-"""
-
-@author: hyeonrok lee
-
-"""
-
 import numpy as np
 
-def linear_regression_by_equation(x,y):
+def linear_regression_by_normal_equation(x,y):
     t = np.append(x,np.matrix(np.ones(len(x))).T,axis=1)
     y = np.matrix(y)
-    w = np.linalg.inv(t.T * t) * (t.T * y) # normal equation
+    w = np.linalg.inv(t.T * t) * (t.T * y)
     return w
 
 

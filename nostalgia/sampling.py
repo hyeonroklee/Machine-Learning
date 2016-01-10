@@ -1,13 +1,14 @@
-# -*- coding: utf-8 -*-
-
 import numpy as np
 
+def shuffle(x,y=None):
+    pass
+
 def split_train_test(x,y=None,ratio=0.75):
-    split_size = len(x)*ratio
+    split_size = int(len(x)*ratio)
     if y is not None:
         if len(x) != len(y):
             raise Exception('dimension unmatched')
-        return x[:split_size],x[split_size:],y[:split_size],y[split_size:]
+        return x[:split_size],y[:split_size],x[split_size:],y[split_size:]
     else:
         return x[:split_size],x[split_size:]
 

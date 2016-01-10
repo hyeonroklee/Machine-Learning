@@ -1,24 +1,19 @@
-# -*- coding: utf-8 -*-
-"""
 
-@author: hyeonrok lee
-
-"""
 import numpy as np
-import nostalgia as ntg
+import pandas as pd
 import matplotlib.pyplot as plt
 
+from nostalgia import *
+
 if __name__ == '__main__':
-    x,y = ntg.simulator.unknown_regression_environment()
-    w1 = ntg.regression.linear_regression_by_equation(x,y)
-    w2 = ntg.regression.linear_regression_by_gradient(x,y)
-    y1 = np.append(x,np.matrix(np.ones(len(x))).T,axis=1) * w1 
-    y2 = np.append(x,np.matrix(np.ones(len(x))).T,axis=1) * w2
-    plt.plot(x,y,'+r')
-    plt.plot(x,y1,'-b')    
-    plt.plot(x,y2,'-g')
+    reg_x,reg_y = simulator.generate_linear_regression_data(n=100,low_bound=-3,high_bound=3,noize=0.1,f=lambda x: np.sin(x))
+    norm_reg_x = features.normalize(reg_x)
+    tran_x, tran_y, test_x, test_y = sampling.split_train_test(norm_reg_x,reg_y)
+    w = regression.linear_regression_by_normal_equation(tran_x,tran_y)
+
+    x = np.linspace(np.min(tran_x.T[0]),np.max(tran_x.T[0]),100)
+    y = (np.matrix([x,np.ones(len(x))]).T) * w
+    plt.plot(x,y.T.tolist()[0])
+    plt.plot(tran_x.T[0],tran_y.T[0],'ro')
+
     plt.show()
-    print w1
-    print w2
-    print w1-w2
-    
