@@ -1,7 +1,11 @@
 import numpy as np
 
 def shuffle(x,y=None):
-    pass
+    d = np.append(x,y,axis=1)
+    np.random.shuffle(d)
+    _x = d[:,:x.shape[1]]
+    _y = d[:,x.shape[1]:]
+    return _x,_y
 
 def split_train_test(x,y=None,ratio=0.75):
     split_size = int(len(x)*ratio)
