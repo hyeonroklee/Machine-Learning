@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
-"""
-
-@author: hyeonrok lee
-
-"""
 
 import numpy as np
-import numpy.linalg as la
-import scipy.optimize as opt
+
+def knn(x,y,t,k=10):
+    d = np.sqrt(np.sum((np.array(x) - np.array(t)) * (np.array(x) - np.array(t)),axis=1))
+    idx = d.argsort()
+    votes = {}
+    for i in range(k):
+        v = y[idx[i],0]
+        votes[v] = votes.get(v,0) + 1
+    return max(votes,key=lambda k: votes[k])
+
 
 def sigmoid(x,w):
     return 1. / (1.+np.exp(-np.dot(x,w)))
@@ -38,16 +41,6 @@ def logistic_regression(x,y):
         w[1] += delta2
         w[2] += delta3                
     return w
-
-def knn(x,y,t,k=10):
-    d = np.sqrt(np.sum( (np.array(x) - np.array(t)) * (np.array(x) - np.array(t)),axis=1) )
-    idx = d.argsort()
-    votes = {}
-    for i in range(k):
-        v = y[idx[i],0]
-        votes[v] = votes.get(v,0) + 1
-    print votes
-
 
 # decision tree
 
