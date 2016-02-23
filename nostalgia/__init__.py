@@ -5,11 +5,11 @@ from data import (
 )
 
 from classification import (
-    knn
+    KNearestNeighbors
 )
 
 __all___ = [
     'generate_random_walk',
     'read_mnist_digit'
-    'knn'
+    'KNearestNeighbors'
 ]

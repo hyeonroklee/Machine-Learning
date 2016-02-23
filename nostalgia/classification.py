@@ -1,15 +1,53 @@
 # -*- coding: utf-8 -*-
 
+from abc import ABCMeta,abstractmethod
 import numpy as np
 
-def knn(x,y,t,k=10):
-    d = np.sqrt(np.sum((np.array(x) - np.array(t)) * (np.array(x) - np.array(t)),axis=1))
-    idx = d.argsort()
-    votes = {}
-    for i in range(k):
-        v = y[idx[i],0]
-        votes[v] = votes.get(v,0) + 1
-    return max(votes,key=lambda k: votes[k])
+class Classifier:
+    __metaclass__  = ABCMeta
+
+    def __init__(self):
+        pass
+
+    @abstractmethod
+    def train(self,x,y):
+        pass
+
+    @abstractmethod
+    def predict(self,x):
+        pass
+
+    @abstractmethod
+    def score(self,x,y):
+        pass
+
+
+class KNearestNeighbors(Classifier):
+
+    def __init__(self,n_neighbors=10):
+        super(KNearestNeighbors,self).__init__()
+        self._n_neighbors = n_neighbors
+
+    def train(self,x,y):
+        self._train_x = x
+        self._train_y = y
+
+    def predict(self,x):
+        ps = []
+        for t in x:
+            d = np.sqrt(np.sum((np.array(self._train_x) - np.array(t)) * (np.array(self._train_x) - np.array(t)),axis=1))
+            idx = d.argsort()
+            votes = {}
+            for  i in range(self._n_neighbors):
+                v = self._train_y[idx[i],0]
+                votes[v] = votes.get(v,0) + 1
+            p = max(votes,key=lambda k: votes[k])
+            ps.append(p)
+        return np.array(ps).reshape(len(ps),len(ps[0]) if isinstance(ps[0],list) else 1)
+
+    def score(self,x,y):
+        predict_y = self.predict(x)
+        return 1 - float(np.count_nonzero(predict_y - y)) / len(x)
 
 
 def sigmoid(x,w):

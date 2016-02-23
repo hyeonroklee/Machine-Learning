@@ -13,8 +13,9 @@ if __name__ == '__main__':
     test_x = np.array(test_x)
     test_y = np.array(test_y)
 
-    for i in range(0,10):
-        print knn(train_x,train_y,np.array([test_x[i]])),test_y[i]
+    classifier = KNearestNeighbors()
+    classifier.train(train_x[:10000],train_y[:10000])
+    print classifier.score(test_x[:100],test_y[:100])
 
     train_y = np.array(train_y).reshape(len(train_x))
     test_y = np.array(test_y).reshape(len(test_x))
