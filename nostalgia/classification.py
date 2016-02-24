@@ -3,6 +3,12 @@
 from abc import ABCMeta,abstractmethod
 import numpy as np
 
+def sigmoid(x,w):
+    return 1. / (1.+np.exp(-np.dot(x,w)))
+
+def sigmoid_prime(z):
+    return sigmoid(z)*(1-sigmoid(z))
+
 class Classifier:
     __metaclass__  = ABCMeta
 
@@ -23,7 +29,6 @@ class Classifier:
 
 
 class KNearestNeighbors(Classifier):
-
     def __init__(self,n_neighbors=10):
         super(KNearestNeighbors,self).__init__()
         self._n_neighbors = n_neighbors
@@ -50,14 +55,32 @@ class KNearestNeighbors(Classifier):
         return 1 - float(np.count_nonzero(predict_y - y)) / len(x)
 
 
-def sigmoid(x,w):
-    return 1. / (1.+np.exp(-np.dot(x,w)))
-    
-def sigmoid_prime(z):
-    return sigmoid(z)*(1-sigmoid(z))
+class LogisticRegression(Classifier):
+    def __init__(self):
+        pass
+
+    def train(self,x,y):
+        t = np.append(x,np.ones((len(x),1)),axis=1)
+        w = np.random.normal(size=(t.shape[1],1))
+        learning_rate = 0.01
+        delta_threshold = 0.01
+
+
+        delta = np.zeros(t.shape[1])
+        for i in range(len(t)):
+            delta += (learning_rate * (y[i] - sigmoid(t[i],w))) * t[i]
+        w += delta.reshape(w.shape)
+
+
+    def predict(self,x):
+        pass
+
+    def score(self,x,y):
+        pass
+
 
 def logistic_regression(x,y):
-    # full batch
+    # full batcha
     t = np.append(x,np.matrix(np.ones(len(x))).T,axis=1)
     w = np.random.normal(size=(t.shape[1],1))
     alpha = 0.001 # learning rate

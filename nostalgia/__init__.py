@@ -5,11 +5,13 @@ from data import (
 )
 
 from classification import (
-    KNearestNeighbors
+    KNearestNeighbors,
+    LogisticRegression
 )
 
 __all___ = [
     'generate_random_walk',
     'read_mnist_digit'
-    'KNearestNeighbors'
+    'KNearestNeighbors',
+    'LogisticRegression'
 ]
