@@ -1,5 +1,7 @@
 
 from data import (
+    generate_linear_regression_data,
+    generate_linear_classification_data,
     generate_random_walk,
     read_mnist_digit
 )
@@ -10,6 +12,8 @@ from classification import (
 )
 
 __all___ = [
+    'generate_linear_regression_data',
+    'generate_linear_classification_data',
     'generate_random_walk',
     'read_mnist_digit'
     'KNearestNeighbors',
