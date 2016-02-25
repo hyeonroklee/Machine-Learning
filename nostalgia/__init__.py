@@ -12,7 +12,7 @@ from classification import (
 )
 
 from regression import (
-    l
+    LinearRegression
 )
 
 from features import (
@@ -28,6 +28,7 @@ __all___ = [
     'read_mnist_digit'
     'KNearestNeighbors',
     'LogisticRegression',
+    'LinearRegression'
     'normalize',
     'pca_compress',
     'pca_decompress'

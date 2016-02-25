@@ -57,6 +57,7 @@ class KNearestNeighbors(Classifier):
 
 class LogisticRegression(Classifier):
     def __init__(self):
+        super(LogisticRegression,self).__init__()
         self._w = None
 
     def train(self,x,y):

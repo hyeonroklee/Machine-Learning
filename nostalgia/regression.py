@@ -22,29 +22,35 @@ class Regression:
     def score(self,x,y):
         pass
 
-def linear_regression_by_normal_equation(x,y):
-    t = np.append(x,np.matrix(np.ones(len(x))).T,axis=1)
-    y = np.matrix(y)
-    w = np.linalg.inv(t.T * t) * (t.T * y)
-    return w
 
+class LinearRegression(Regression):
+    def __init__(self,ne=True):
+        super(LinearRegression,self).__init__()
+        self._w = None
+        self._ne = ne
 
-def linear_regression_by_gradient(x,y):
-    t = np.append(x,np.matrix(np.ones(len(x))).T,axis=1)
-    w = np.random.normal(size=(t.shape[1],1))
-    alpha = 0.0000001 # learning rate
-    delta = 0.001
-    
-    while True:
-        delta1 = 0.
-        delta2 = 0. 
-        for i in range(t.shape[0]):
-            delta1 = delta1 + (alpha * ((y[i] - t[i] * w) * t[i,0]))[0,0]
-            delta2 = delta2 + (alpha * ((y[i] - t[i] * w) * t[i,1]))[0,0]
-        # check if there is a fluctuation to adjust the learning rate
-        # print delta1,delta2
-        if np.abs(delta1) < delta and np.abs(delta2) < delta:
-            break
-        w[0] += delta1
-        w[1] += delta2
-    return w
+    def train(self,x,y):
+        if self._ne:
+            t = np.matrix(np.append(x,np.ones((len(x),1)),axis=1))
+            y = np.matrix(y)
+            self._w = np.linalg.inv(t.T * t) * (t.T * y)
+        else:
+            t = np.append(x,np.ones((len(x),1)),axis=1)
+            w = np.random.normal(size=(t.shape[1],1))
+            learning_rate = 0.001
+            while True:
+                delta = np.zeros(t.shape[1])
+                for i in range(len(t)):
+                    delta += (learning_rate * (y[i] - np.dot(t[i],w))) * t[i]
+                if np.all(np.abs(delta) < 0.001):
+                    break
+                w += delta.reshape(w.shape)
+            self._w = w
+            return w
+
+    def predict(self,x):
+        t = np.matrix(np.append(x,np.ones((len(x),1)),axis=1))
+        return t * self._w
+
+    def score(self,x,y):
+        pass
