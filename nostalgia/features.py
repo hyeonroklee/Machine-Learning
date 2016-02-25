@@ -15,3 +15,4 @@ def pca_decompress(x,evec):
     evec = np.matrix(evec)
     res = data * evec.T
     return res
+

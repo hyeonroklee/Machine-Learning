@@ -1,4 +1,26 @@
+# -*- coding: utf-8 -*-
+
+from abc import ABCMeta,abstractmethod
+
 import numpy as np
+
+class Regression:
+    __metaclass__  = ABCMeta
+
+    def __init__(self):
+        pass
+
+    @abstractmethod
+    def train(self,x,y):
+        pass
+
+    @abstractmethod
+    def predict(self,x):
+        pass
+
+    @abstractmethod
+    def score(self,x,y):
+        pass
 
 def linear_regression_by_normal_equation(x,y):
     t = np.append(x,np.matrix(np.ones(len(x))).T,axis=1)
@@ -8,7 +30,6 @@ def linear_regression_by_normal_equation(x,y):
 
 
 def linear_regression_by_gradient(x,y):
-    # full batch
     t = np.append(x,np.matrix(np.ones(len(x))).T,axis=1)
     w = np.random.normal(size=(t.shape[1],1))
     alpha = 0.0000001 # learning rate
