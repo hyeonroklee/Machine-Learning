@@ -6,7 +6,6 @@ import numpy as np
 def generate_linear_regression_data(n=20,low_bound=-10,high_bound=10,noize=1,f = lambda x : x + 2):
     x = np.array([ np.random.uniform(low_bound,high_bound,n) ])
     y = f(x) + np.random.normal(0,noize,n)
-
     return x.T,y.T
 
 def generate_linear_classification_data(n1=10,n2=10):

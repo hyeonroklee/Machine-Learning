@@ -7,16 +7,29 @@ from sklearn.neighbors import KNeighborsClassifier
 
 if __name__ == '__main__':
 
-    x,y = generate_linear_regression_data()
-    regression = LinearRegression(ne=False)
-    w = regression.train(x,y)
+    x,y = generate_linear_classification_data(n1=50,n2=50)
 
-    t_x = np.linspace(-10,10,50).reshape(50,1)
-    t_y = regression.predict(t_x)
+    compressed_x,vec = pca_compress(x)
+    # print compressed_x,vec
+    res = pca_decompress(compressed_x,vec)
 
-    plt.plot(x,y,'ro')
-    plt.plot(t_x,t_y)
+    plt.plot( x[np.where(y.reshape(len(y)) == 0)[0],0], x[np.where(y.reshape(len(y)) == 0)[0],1],'ro')
+    plt.plot( x[np.where(y.reshape(len(y)) == 1)[0],0], x[np.where(y.reshape(len(y)) == 1)[0],1],'bo')
+
+    plt.plot( res[np.where(y.reshape(len(y)) == 0)[0],0], res[np.where(y.reshape(len(y)) == 0)[0],1],'ro')
+    plt.plot( res[np.where(y.reshape(len(y)) == 1)[0],0], res[np.where(y.reshape(len(y)) == 1)[0],1],'bo')
+
     plt.show()
+
+    # regression = LinearRegression(ne=False)
+    # w = regression.train(x,y)
+    #
+    # t_x = np.linspace(-10,10,50).reshape(50,1)
+    # t_y = regression.predict(t_x)
+    #
+    # plt.plot(x,y,'ro')
+    # plt.plot(t_x,t_y)
+    # plt.show()
 
 
     # x,y = generate_linear_classification_data(n1=50,n2=50)
