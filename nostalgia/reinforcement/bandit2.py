@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-
-@author: hyeonrok lee
-
-"""
 
 import numpy as np
 import matplotlib.pyplot as plt
