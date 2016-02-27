@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
 
-@author: hyeonrok lee
-
-"""
-
+if __name__ == '__main__':
+    pass
