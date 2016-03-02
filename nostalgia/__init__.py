@@ -21,6 +21,13 @@ from features import (
     pca_decompress
 )
 
+from sampling import (
+    shuffle,
+    split_train_test,
+    cross_validation,
+    resampling
+)
+
 __all___ = [
     'generate_linear_regression_data',
     'generate_linear_classification_data',
@@ -31,5 +38,9 @@ __all___ = [
     'LinearRegression'
     'normalize',
     'pca_compress',
-    'pca_decompress'
+    'pca_decompress',
+    'shuffle',
+    'split_train_test',
+    'cross_validation',
+    'resampling'
 ]
