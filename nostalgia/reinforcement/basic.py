@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from abc import ABCMeta,abstractmethod
+
 class Action(object):
     def __init__(self,a):
         self.a = a
@@ -66,9 +68,12 @@ class Policy(object):
     
 
 class Agent(object):
+    __metaclass__ = ABCMeta
+
     def __init__(self,env,policy):
         self._env = env
         self._policy = policy
-        
-    def step(self):
+
+    @abstractmethod
+    def next_step(self):
         pass
