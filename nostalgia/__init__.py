@@ -22,7 +22,8 @@ from regression import (
 from features import (
     normalize,
     pca_compress,
-    pca_decompress
+    pca_decompress,
+    polynomial
 )
 
 from sampling import (
@@ -32,6 +33,7 @@ from sampling import (
     resampling
 )
 
+import reinforcement
 
 __all___ = [
     'generate_linear_regression_data',
@@ -45,8 +47,10 @@ __all___ = [
     'normalize',
     'pca_compress',
     'pca_decompress',
+    'polynomial',
     'shuffle',
     'split_train_test',
     'cross_validation',
-    'resampling'
+    'resampling',
+    'reinforcement'
 ]

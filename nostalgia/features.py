@@ -15,3 +15,6 @@ def pca_decompress(x,evec):
     evec = np.matrix(evec)
     res = data * evec.T
     return res
+
+def polynomial(x,degree=2):
+    pass

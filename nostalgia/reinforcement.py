@@ -434,19 +434,3 @@ class SampleAgent(Agent):
             return True
         else:
             return False
-
-if __name__ == '__main__':
-    env = GridWorld()
-    agent = SampleAgent(env)
-
-    print 'DP Policy'
-    policy = DPPolicy(env)
-    agent.set_policy(policy)
-    while agent.next_step():
-        pass
-
-    print 'MC Policy'
-    policy = MCPolicy(env)
-    agent.set_policy(policy)
-    while agent.next_step():
-        pass
