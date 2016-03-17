@@ -17,4 +17,10 @@ def pca_decompress(x,evec):
     return res
 
 def polynomial(x,degree=2):
-    pass
+    poly_features = []
+    for r in x:
+        converted_feature = r
+        for i in range(degree-1):
+            converted_feature = np.polymul(r,converted_feature)
+        poly_features.append(converted_feature)
+    return np.array(poly_features)
