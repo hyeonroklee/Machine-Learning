@@ -18,5 +18,5 @@ if __name__ == '__main__':
 
     plt.plot( x[np.where(y.reshape(len(y)) == 0)[0],0], x[np.where(y.reshape(len(y)) == 0)[0],1],'ro')
     plt.plot( x[np.where(y.reshape(len(y)) == 1)[0],0], x[np.where(y.reshape(len(y)) == 1)[0],1],'bo')
-    plt.plot(np.linspace(0,5),(-w[2]-w[0]*np.linspace(0,5))/w[1])
+    plt.plot(np.linspace(0,5),(-w[2,0]-w[0,0]*np.linspace(0,5))/w[1,0])
     plt.show()

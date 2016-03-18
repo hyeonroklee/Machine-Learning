@@ -29,7 +29,7 @@ class LinearRegression(Regression):
         self._w = None
         self._ne = ne
 
-    def train(self,x,y,alpha=0.001,batch_size=10):
+    def train(self,x,y,alpha=0.001,batch_size=10,epochs=1):
         if self._ne:
             t = np.matrix(np.append(x,np.ones((len(x),1)),axis=1))
             y = np.matrix(y)

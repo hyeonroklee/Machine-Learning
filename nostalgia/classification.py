@@ -60,16 +60,15 @@ class LogisticRegression(Classifier):
         super(LogisticRegression,self).__init__()
         self._w = None
 
-    def train(self,x,y):
-        t = np.append(x,np.ones((len(x),1)),axis=1)
-        w = np.random.normal(size=(t.shape[1],1))
-        learning_rate = 0.001
-
+    def train(self,x,y,alpha=0.001,batch_size=10,epochs=1):
+        t = np.matrix(np.append(x,np.ones((len(x),1)),axis=1))
+        y = np.matrix(y)
+        w = np.matrix(np.random.normal(size=(t.shape[1],1)))
         while True:
-            delta = np.zeros(t.shape[1])
+            delta = np.matrix(np.zeros(t.shape[1]))
             for i in range(len(t)):
-                delta += (learning_rate * (y[i] - sigmoid(t[i],w))) * t[i]
-            if np.all(np.abs(delta) < 0.001):
+                delta += (alpha * ((y[i] - sigmoid(t[i],w)) * t[i]))
+            if np.all(np.abs(delta) < 0.001) or np.any(np.isnan(delta)):
                 break
             w += delta.reshape(w.shape)
         self._w = w
