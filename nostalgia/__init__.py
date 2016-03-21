@@ -24,7 +24,8 @@ from features import (
     normalize,
     pca_compress,
     pca_decompress,
-    polynomial
+    polynomial,
+    Digitizer
 )
 
 from sampling import (
@@ -50,6 +51,7 @@ __all___ = [
     'pca_compress',
     'pca_decompress',
     'polynomial',
+    'Digitizer',
     'shuffle',
     'split_train_test',
     'cross_validation',

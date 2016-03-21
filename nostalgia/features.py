@@ -25,3 +25,24 @@ def polynomial(x,degree=2):
             converted_feature = np.polymul(r,converted_feature)
         poly_features.append(converted_feature)
     return np.array(poly_features)[:,:-1]
+
+class Digitizer(object):
+    def __init__(self,x,n_bins=10):
+        self._n_bins = n_bins
+        self._min_max = []
+        for i in range(x.shape[1]):
+            c = x[:,i]
+            min_value = np.min(c)
+            max_value = np.max(c)
+            self._min_max.append(np.array([min_value,max_value]))
+        self._min_max = np.array(self._min_max)
+
+    def transform(self,x):
+        _result = []
+        for i in range(x.shape[1]):
+            c = x[:,i]
+            min_value = self._min_max[i][0]
+            max_value = self._min_max[i][1]
+            _result.append(np.digitize(c,np.linspace(min_value,max_value,self._n_bins)))
+        _result = np.array(_result).T
+        return _result
