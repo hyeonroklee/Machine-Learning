@@ -12,7 +12,8 @@ from network import (
 
 from classification import (
     KNearestNeighbors,
-    LogisticRegression
+    LogisticRegression,
+    DecisionTree
 )
 
 from regression import (
@@ -43,7 +44,8 @@ __all___ = [
     'Network',
     'KNearestNeighbors',
     'LogisticRegression',
-    'LinearRegression'
+    'DecisionTree',
+    'LinearRegression',
     'normalize',
     'pca_compress',
     'pca_decompress',
