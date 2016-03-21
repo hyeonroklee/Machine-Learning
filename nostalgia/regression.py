@@ -61,4 +61,5 @@ class LinearRegression(Regression):
         return t * self._w
 
     def score(self,x,y):
-        pass
+        y_hat = self.predict(x)
+        return np.sqrt((y - y_hat).T * (y - y_hat))[0,0]
