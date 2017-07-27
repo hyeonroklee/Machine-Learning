@@ -6,6 +6,7 @@
 - tensorflow
 - pytorch
 - sklearn
+- gym
 - jupyter-notebook
 
 ## Author
