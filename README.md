@@ -1,11 +1,12 @@
-##Sample Notebook Code for Machine Learning 
+# Sample Notebook Code for Machine Learning 
 
-##Dependencies
+## Dependencies
 - numpy
 - matplotlib
 - tensorflow
+- pytorch
 - sklearn
 - jupyter-notebook
 
-##Author
+## Author
 - HyeonRok Lee ( https://kr.linkedin.com/in/hyeonrok-lee-71300084 )
